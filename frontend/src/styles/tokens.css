@@ -1,0 +1,90 @@
+:root {
+  /* Night sky: the field every screen stands on */
+  --night-950: #070e24;
+  --night-900: #0a1330;
+  --night-800: #0d1836;
+  --night-700: #142452;
+  --night-600: #1d3272;
+  --night-400: #3b56a8;
+  --moonlight: #dfe4f5;
+  --moonlight-dim: #b8c2e3;
+
+  /* Carved wood */
+  --wood-950: #1f1208;
+  --wood-900: #2a180b;
+  --wood-800: #3b2412;
+  --wood-700: #553519;
+  --wood-600: #6b4524;
+  --wood-400: #9a6a3a;
+
+  /* Gold trim */
+  --gold-100: #fbeab0;
+  --gold-300: #f7dc84;
+  --gold-500: #e3b54b;
+  --gold-700: #9a6c1a;
+  --gold-900: #5e410c;
+
+  /* Parchment and ink */
+  --parchment-50: #fbf4e0;
+  --parchment-100: #f7ecd0;
+  --parchment-200: #efe1bd;
+  --parchment-300: #e2cf9f;
+  --parchment-400: #cdb47c;
+  --ink-900: #2f2213;
+  --ink-700: #4e3a22;
+  --ink-600: #5f482b;
+
+  /* Player colours */
+  --crimson: #c3332b;
+  --crimson-deep: #8a1d17;
+  --azure: #2f62d4;
+  --azure-deep: #1b3d8f;
+  --verdant: #3d8c3a;
+  --verdant-deep: #245a22;
+  --amber: #d99a1e;
+  --amber-deep: #8f610c;
+
+  /* Land */
+  --land: #4f7f3a;
+  --land-light: #6c9a4b;
+  --land-edge: #2f4d22;
+
+  --error: #9e2019;
+
+  --font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  --font-body: 'Alegreya Sans', 'Gill Sans', 'Segoe UI', sans-serif;
+
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-lg: 16px;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 72px;
+}
+
+/* Player colour resolves from the nearest data-colour ancestor */
+[data-colour='crimson'] {
+  --player: var(--crimson);
+  --player-deep: var(--crimson-deep);
+}
+[data-colour='azure'] {
+  --player: var(--azure);
+  --player-deep: var(--azure-deep);
+}
+[data-colour='verdant'] {
+  --player: var(--verdant);
+  --player-deep: var(--verdant-deep);
+}
+[data-colour='amber'] {
+  --player: var(--amber);
+  --player-deep: var(--amber-deep);
+}

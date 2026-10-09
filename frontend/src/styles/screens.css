@@ -385,3 +385,416 @@
     transform: translateY(10px);
   }
 }
+
+/* ================= Top bar navigation ================= */
+.topbar__nav {
+  display: flex;
+  gap: var(--space-1);
+  margin-right: auto;
+}
+
+.topbar__link {
+  display: grid;
+  place-items: center;
+  min-height: 40px;
+  padding: 0 var(--space-3);
+  border-radius: 7px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  color: var(--parchment-300);
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+
+.topbar__link.active {
+  color: var(--gold-100);
+  background: rgb(0 0 0 / 0.25);
+  box-shadow: inset 0 0 0 1px rgb(227 181 75 / 0.55);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .topbar__link:not(.active):hover {
+    color: var(--gold-100);
+    background: rgb(0 0 0 / 0.15);
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar .wordmark {
+    display: none;
+  }
+  .topbar__link {
+    padding: 0 var(--space-2);
+  }
+}
+
+/* ================= Shared page shell ================= */
+.page-screen {
+  min-height: 100dvh;
+}
+
+/* ================= Lobby ================= */
+.hall,
+.room {
+  max-width: 880px;
+  margin-inline: auto;
+  padding: clamp(24px, 5vw, 56px) clamp(16px, 4vw, 40px) var(--space-8);
+  display: grid;
+  gap: var(--space-5);
+}
+
+.hall .page-intro {
+  margin-top: calc(var(--space-3) * -1);
+}
+
+.hall__panel,
+.room__panel,
+.battlefield__map,
+.battlefield__legend {
+  animation: rise 320ms var(--ease-out) both;
+}
+
+.game-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+}
+
+.game-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  padding: var(--space-3) 0;
+}
+
+.game-row + .game-row {
+  border-top: 1px solid rgb(78 58 34 / 0.2);
+}
+
+.game-row__title {
+  font-weight: 700;
+  color: var(--ink-900);
+  overflow-wrap: anywhere;
+}
+
+.game-row__status {
+  font-size: 0.9375rem;
+  color: var(--ink-600);
+}
+
+.game-row__action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.game-row__action .button {
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  font-size: 0.875rem;
+}
+
+.game-row--skeleton {
+  grid-template-columns: minmax(0, 1fr) auto;
+  min-height: 68px;
+}
+
+@media (max-width: 520px) {
+  .game-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .game-row .seat-marks {
+    grid-row: 2;
+  }
+  .game-row__action {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+  }
+}
+
+/* ================= Waiting room ================= */
+.room__status {
+  color: var(--moonlight-dim);
+}
+
+.room__panel--narrow {
+  max-width: 560px;
+}
+
+.seats {
+  margin: 0 0 var(--space-5);
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.seat {
+  display: grid;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.3);
+  box-shadow: inset 0 0 0 1px rgb(78 58 34 / 0.22);
+}
+
+.seat__body {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-3) var(--space-4);
+  text-align: center;
+}
+
+/* A knight taking a seat is the one moment worth animating here. */
+.seat__body--taken {
+  transition:
+    opacity 180ms var(--ease-out),
+    transform 180ms var(--ease-out);
+
+  @starting-style {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.seat__body--taken .crest {
+  filter: drop-shadow(0 4px 6px rgb(47 34 19 / 0.35));
+}
+
+.seat__name {
+  max-width: 100%;
+  font-weight: 700;
+  color: var(--ink-900);
+  overflow-wrap: anywhere;
+}
+
+.seat__name--open {
+  font-weight: 500;
+  color: var(--ink-600);
+}
+
+.seat__role {
+  min-height: 1.4em;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold-900);
+}
+
+.room__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.room__note {
+  color: var(--ink-600);
+}
+
+@media (max-width: 520px) {
+  .seats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .seat__body {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    justify-items: start;
+    align-items: center;
+    column-gap: var(--space-4);
+    row-gap: 0;
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+  }
+  .seat__body > svg {
+    grid-row: 1 / span 2;
+    width: 44px;
+    height: 50px;
+  }
+}
+
+/* ================= Started game ================= */
+.room:has(.battlefield) {
+  max-width: 1240px;
+}
+
+.battlefield {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+  grid-template-areas:
+    'heading heading'
+    'map legend';
+  align-items: start;
+  gap: var(--space-5);
+}
+
+.battlefield__heading {
+  grid-area: heading;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.battlefield__map {
+  grid-area: map;
+}
+
+.battlefield__map .frame__surface {
+  padding: clamp(8px, 2vw, 20px);
+}
+
+.battlefield__legend {
+  grid-area: legend;
+}
+
+@media (max-width: 900px) {
+  .battlefield {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'heading'
+      'legend'
+      'map';
+  }
+}
+
+.legend {
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.legend__player {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.legend__text {
+  min-width: 0;
+}
+
+.legend__name {
+  font-weight: 700;
+  color: var(--ink-900);
+  overflow-wrap: anywhere;
+}
+
+.legend__you {
+  font-weight: 500;
+  color: var(--ink-600);
+}
+
+.legend__capital {
+  font-size: 0.9375rem;
+  color: var(--ink-600);
+}
+
+/* ================= Board ================= */
+.board {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.board__roads line {
+  stroke: var(--ink-600);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 1 9;
+  opacity: 0.75;
+}
+
+.territory__seal {
+  fill: var(--parchment-100);
+  stroke: var(--ink-600);
+  stroke-width: 2.5;
+}
+
+.territory[data-colour] .territory__seal {
+  fill: var(--player);
+  stroke: var(--player-deep);
+  stroke-width: 3;
+}
+
+/* A capital is marked by a gold ring around its owner's colour. */
+.territory--capital[data-colour] .territory__seal {
+  stroke: var(--gold-500);
+  stroke-width: 5;
+  filter: drop-shadow(0 4px 5px rgb(47 34 19 / 0.35));
+}
+
+.territory__name {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 24px;
+  text-anchor: middle;
+  fill: var(--ink-900);
+  stroke: var(--parchment-100);
+  stroke-width: 6px;
+  stroke-linejoin: round;
+  paint-order: stroke;
+}
+
+.territory__health circle {
+  fill: var(--player);
+  stroke: var(--player-deep);
+  stroke-width: 1.5;
+}
+
+.territory__health circle[data-lost] {
+  fill: none;
+  stroke: var(--ink-600);
+}
+
+.health {
+  display: flex;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.health__pip {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--player);
+  box-shadow: inset 0 0 0 1.5px var(--player-deep);
+}
+
+.health__pip[data-lost] {
+  background: none;
+  box-shadow: inset 0 0 0 1.5px var(--ink-600);
+}
+
+/* Castles are planted once, when the board first appears. */
+.territory__castle {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: plant 420ms var(--ease-out) both;
+}
+
+.territory[data-seat='2'] .territory__castle {
+  animation-delay: 90ms;
+}
+
+.territory[data-seat='3'] .territory__castle {
+  animation-delay: 180ms;
+}
+
+@keyframes plant {
+  from {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.94);
+  }
+}

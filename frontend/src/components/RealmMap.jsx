@@ -23,7 +23,7 @@ const CASTLES = [
   { x: 800, y: 385, colour: 'verdant', label: 'Verdant castle' },
 ]
 
-function Castle({ x, y, colour }) {
+export function Castle({ x, y, colour }) {
   return (
     <g className="castle" data-colour={colour} transform={`translate(${x} ${y})`}>
       <ellipse cx="0" cy="34" rx="46" ry="9" className="castle__shadow" />

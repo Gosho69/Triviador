@@ -23,7 +23,7 @@ export function GuestOnly() {
 
   if (status === 'loading' || status === 'unavailable') return <SessionPending />
   if (status === 'authenticated') {
-    return <Navigate to={location.state?.from?.pathname ?? '/profile'} replace />
+    return <Navigate to={location.state?.from?.pathname ?? '/games'} replace />
   }
   return <Outlet />
 }

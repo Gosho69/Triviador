@@ -17,7 +17,7 @@ python manage.py runserver
 |---|---|---|
 | `accounts` | M1 | Custom user, profile, auth API |
 | `questions` | M2 | Categories, choice and numeric questions, question bank fixture |
-| `games` | M3, M5 | `Game`, `GamePlayer`, `Round`, `RoundAnswer`; game initialization and player changes |
+| `games` | M3, M5 | `Game`, `GamePlayer`, `Round`, `RoundAnswer`; game initialization, player changes, games API |
 | `territories` | M4 | Project map, `Territory`, `Adjacency`, `Capital` |
 
 ## M4 — Territories and map
@@ -215,3 +215,42 @@ cd backend
 python manage.py test                          # all milestones
 python manage.py test games.tests.test_initialization
 ```
+
+## Lobby and game board
+
+Players find, fill and start games in the browser. Questions and rounds are not played yet; the
+board shows each game's starting state.
+
+### Screens
+
+| Route | Screen |
+|---|---|
+| `/games` | Lobby (default after sign-in): your games, open games with free seats, **Raise a banner** to open a new one |
+| `/games/:id` | Waiting room with three seats. The host can **Start game** once all three are taken, or **Disband** it. Other players can **Leave** or **Take a seat**. After the start this page shows the board |
+| `/profile` | Your banner (nickname and knight) |
+
+The lobby and the waiting room refresh every 4 seconds while the tab is visible, and stop once a
+game has started. On the board each player has the colour of their seat (crimson, azure, verdant),
+so no two players share a colour. Capitals have a gold ring, a castle and three health pips.
+
+### Games API (`/api/games/`, signed-in users, CSRF on POST)
+
+| Method and path | Who | Result |
+|---|---|---|
+| `GET /` | anyone | Waiting games, plus started games you play in |
+| `POST /` | anyone | New waiting game with you in seat 1 as host (`201`) |
+| `GET /{id}/` | anyone for a waiting game, otherwise players only (`404`) | Game with players, and `board` once started |
+| `POST /{id}/join/` | not yet in the game | Takes the lowest free seat |
+| `POST /{id}/leave/` | players except the host | `204` |
+| `POST /{id}/start/` | host only (`403`) | Runs `initialize_game` and returns the board |
+| `POST /{id}/cancel/` | host only (`403`), waiting games | Status `cancelled` (`204`) |
+
+Rejected actions use the usual `{"errors": {"non_field_errors": [...]}}` shape with status `400`
+(for example a full game, a fourth player, or starting with fewer than three players).
+
+### Try it locally
+
+Run `python manage.py runserver` in `backend/` and `npm run dev` in `frontend/`, then open
+<http://localhost:5173>. Register three accounts, using a private window or another browser for
+each, so that each has its own session. One raises a banner, the other two take a seat, and the
+host starts the game.

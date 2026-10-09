@@ -415,3 +415,151 @@
   letter-spacing: 0;
   color: var(--moonlight-dim);
 }
+
+/* ---------- Buttons on parchment ---------- */
+a.button {
+  text-decoration: none;
+}
+
+.button--quiet {
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  font-size: 0.875rem;
+  border: 1px solid rgb(78 58 34 / 0.55);
+  color: var(--ink-700);
+  background: rgb(255 255 255 / 0.25);
+}
+
+.button--danger {
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  font-size: 0.875rem;
+  border: 1px solid var(--crimson-deep);
+  color: var(--parchment-50);
+  background: linear-gradient(180deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.25),
+    0 3px 8px -2px rgb(47 34 19 / 0.45);
+}
+
+.button--quiet:disabled,
+.button--danger:disabled:not([aria-busy]) {
+  opacity: 0.55;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button--quiet:hover:not(:disabled) {
+    color: var(--ink-900);
+    background: rgb(255 255 255 / 0.55);
+  }
+  .button--danger:hover:not(:disabled) {
+    filter: brightness(1.08);
+  }
+}
+
+/* ---------- Seats ---------- */
+.open-seat {
+  display: block;
+  flex: none;
+  fill: rgb(78 58 34 / 0.06);
+  stroke: rgb(78 58 34 / 0.45);
+  stroke-width: 2.5;
+  stroke-dasharray: 5 5;
+  stroke-linejoin: round;
+}
+
+.seat-marks {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---------- Loading placeholders ---------- */
+.skeleton {
+  display: block;
+  border-radius: var(--radius-sm);
+  background: rgb(78 58 34 / 0.12);
+}
+.skeleton--text {
+  width: min(220px, 60%);
+  height: 18px;
+}
+.skeleton--marks {
+  width: 84px;
+  height: 27px;
+  margin-left: auto;
+}
+
+/* ---------- Page headings on the night sky ---------- */
+.page-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+  line-height: 1.1;
+  color: var(--gold-300);
+  text-shadow: 0 2px 0 var(--gold-900), 0 8px 20px rgb(0 0 0 / 0.5);
+  overflow-wrap: anywhere;
+}
+
+.page-intro {
+  max-width: 62ch;
+  color: var(--moonlight-dim);
+}
+
+.panel-title--small {
+  font-size: 1.25rem;
+}
+
+.panel-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.empty-note {
+  max-width: 52ch;
+  color: var(--ink-600);
+}
+
+.back-link {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  font-weight: 700;
+  color: var(--gold-300);
+  text-decoration: none;
+}
+
+.back-link svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .back-link:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Inline two-step confirmation instead of a modal */
+.confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+
+.confirm__question {
+  font-weight: 700;
+  color: var(--ink-900);
+}

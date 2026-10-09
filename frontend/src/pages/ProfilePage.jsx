@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/context'
 import { AvatarPicker } from '../components/AvatarPicker'
 import { Button } from '../components/Button'
@@ -8,7 +7,7 @@ import { FormAlert } from '../components/FormAlert'
 import { Frame } from '../components/Frame'
 import { KnightCrest } from '../components/KnightCrest'
 import { NightSky } from '../components/NightSky'
-import { Wordmark } from '../components/Wordmark'
+import { TopBar } from '../components/TopBar'
 import { knightFor } from '../knights'
 import { required, useForm } from './useForm'
 
@@ -32,12 +31,10 @@ function MissingProfile() {
 }
 
 function ProfileEditor({ user }) {
-  const { logout, updateProfile } = useAuth()
-  const navigate = useNavigate()
+  const { updateProfile } = useAuth()
   const { profile } = user
   const form = useForm({ nickname: profile.nickname, avatar_key: profile.avatar_key })
   const [sealed, setSealed] = useState(false)
-  const [leaving, setLeaving] = useState(false)
 
   const dirty = form.values.nickname !== profile.nickname || form.values.avatar_key !== profile.avatar_key
   const previewKnight = knightFor(form.values.avatar_key)
@@ -53,17 +50,6 @@ function ProfileEditor({ user }) {
     setSealed(ok)
   }
 
-  async function handleLogout() {
-    setLeaving(true)
-    try {
-      await logout()
-      navigate('/login', { replace: true })
-    } catch (error) {
-      form.setErrors(error.errors ?? { non_field_errors: [String(error)] })
-      setLeaving(false)
-    }
-  }
-
   function handleEdit(apply) {
     setSealed(false)
     apply()
@@ -72,16 +58,7 @@ function ProfileEditor({ user }) {
   return (
     <div className="profile-screen" data-colour={previewKnight.colour}>
       <NightSky />
-      <header className="topbar">
-        <Wordmark size="small" />
-        <div className="topbar__player">
-          <KnightCrest avatarKey={profile.avatar_key} size={30} title="" />
-          <span className="topbar__name">{profile.nickname}</span>
-          <Button variant="ghost" onClick={handleLogout} pending={leaving} pendingLabel="Logging out…">
-            Log out
-          </Button>
-        </div>
-      </header>
+      <TopBar onLogoutError={form.setErrors} />
 
       <main className="profile">
         <section className="banner" aria-labelledby="banner-name">

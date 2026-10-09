@@ -9,3 +9,10 @@ export const KNIGHTS = [
 export function knightFor(key) {
   return KNIGHTS.find((knight) => knight.key === key) ?? KNIGHTS[0]
 }
+
+// On the board a player's colour comes from their seat, so three players never share one.
+const SEAT_COLOURS = { 1: 'crimson', 2: 'azure', 3: 'verdant' }
+
+export function seatColour(seat) {
+  return SEAT_COLOURS[seat]
+}

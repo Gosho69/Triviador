@@ -11,6 +11,11 @@ export class ApiError extends Error {
   }
 }
 
+// The `{field: [messages]}` shape forms and alerts expect, for API and unexpected errors alike.
+export function errorsOf(error) {
+  return error?.errors ?? { non_field_errors: [String(error)] }
+}
+
 function readCookie(name) {
   const match = document.cookie.split('; ').find((row) => row.startsWith(`${name}=`))
   return match ? decodeURIComponent(match.slice(name.length + 1)) : null
@@ -68,4 +73,14 @@ export const authApi = {
   login: (credentials) => request('/auth/login/', { method: 'POST', body: credentials }),
   logout: () => request('/auth/logout/', { method: 'POST' }),
   updateProfile: (changes) => request('/auth/me/', { method: 'PATCH', body: changes }),
+}
+
+export const gamesApi = {
+  list: () => request('/games/'),
+  create: () => request('/games/', { method: 'POST' }),
+  get: (id) => request(`/games/${id}/`),
+  join: (id) => request(`/games/${id}/join/`, { method: 'POST' }),
+  leave: (id) => request(`/games/${id}/leave/`, { method: 'POST' }),
+  start: (id) => request(`/games/${id}/start/`, { method: 'POST' }),
+  cancel: (id) => request(`/games/${id}/cancel/`, { method: 'POST' }),
 }

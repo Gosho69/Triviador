@@ -11,7 +11,8 @@ const DIVISIONS = {
   'knight-4': 'M32 0H64V36H32ZM0 36H32V72H0Z',
 }
 
-export function KnightCrest({ avatarKey, size = 64, title }) {
+// `colour` overrides the knight's own colour, e.g. with a player's seat colour inside a game.
+export function KnightCrest({ avatarKey, size = 64, title, colour }) {
   const clipId = useId()
   const knight = knightFor(avatarKey)
   const label = title ?? knight.name
@@ -21,7 +22,7 @@ export function KnightCrest({ avatarKey, size = 64, title }) {
   return (
     <svg
       className="crest"
-      data-colour={knight.colour}
+      data-colour={colour ?? knight.colour}
       width={size}
       height={size * (72 / 64)}
       viewBox="0 0 64 72"

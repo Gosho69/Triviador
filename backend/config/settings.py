@@ -81,6 +81,19 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        'OPTIONS': {
+            # SQLite has no row locks (select_for_update is ignored). BEGIN IMMEDIATE takes the
+            # database write lock when a transaction starts, so concurrent game initialization and
+            # player changes run one after another instead of racing. Waiting writers retry for
+            # up to `timeout` seconds before failing with "database is locked".
+            'transaction_mode': 'IMMEDIATE',
+            'timeout': 20,
+        },
+        # A file (not the default in-memory database) so the concurrency tests can open
+        # independent connections from several threads.
+        'TEST': {
+            'NAME': BASE_DIR / 'test_db.sqlite3',
+        },
     }
 }
 

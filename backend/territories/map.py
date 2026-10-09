@@ -103,12 +103,16 @@ def is_connected(neighbor_map):
     return len(seen) == len(neighbor_map)
 
 
+def capital_groups(neighbor_map):
+    """Yield every group of CAPITALS_COUNT pairwise non-adjacent territories, as sorted slug tuples."""
+    for group in combinations(sorted(neighbor_map), CAPITALS_COUNT):
+        if all(second not in neighbor_map[first] for first, second in combinations(group, 2)):
+            yield group
+
+
 def has_capital_triple(neighbor_map):
     """Whether some CAPITALS_COUNT territories exist that are pairwise non-adjacent."""
-    return any(
-        all(second not in neighbor_map[first] for first, second in combinations(group, 2))
-        for group in combinations(sorted(neighbor_map), CAPITALS_COUNT)
-    )
+    return next(capital_groups(neighbor_map), None) is not None
 
 
 def validate_map(territories, adjacencies):

@@ -14,6 +14,7 @@ from territories.models import Territory
 from .models import Game, GamePlayer
 from .serializers import GameDetailSerializer, GameSerializer
 from .services import add_player, cancel_game, create_game, initialize_game, remove_player
+from .waiting_room import join_waiting_room, leave_waiting_room
 
 PLAYERS = Prefetch("players", queryset=GamePlayer.objects.select_related("user__profile"))
 TERRITORIES = Prefetch(
@@ -107,3 +108,15 @@ class CancelGameView(APIView):
         with service_errors():
             cancel_game(game)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class JoinWaitingRoomView(APIView):
+    def post(self, request):
+        with service_errors():
+            game = join_waiting_room(request.user)
+        return Response({"game": game.pk if game else None}, status=status.HTTP_201_CREATED)
+
+
+class LeaveWaitingRoomView(APIView):
+    def post(self, request):
+        return Response({"left": leave_waiting_room(request.user)})

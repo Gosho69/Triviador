@@ -10,7 +10,7 @@ from territories.models import Capital, Territory
 from territories.services import assign_capitals, build_game_map
 from territories.validation import validate_game_map
 
-from .models import Game, GamePlayer
+from .models import Game, GamePlayer, WaitingRoomEntry
 
 PLAYERS_COUNT = 3
 
@@ -78,6 +78,7 @@ def add_player(game, user):
         # Reuse the lowest free seat, so seats stay 1..PLAYERS_COUNT after someone leaves.
         taken = set(locked.players.values_list("player_order", flat=True))
         seat = min(set(range(1, PLAYERS_COUNT + 1)) - taken)
+        WaitingRoomEntry.objects.filter(user=user).delete()
         return GamePlayer.objects.create(game=locked, user=user, player_order=seat)
 
 

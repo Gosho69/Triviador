@@ -37,6 +37,16 @@ class Game(models.Model):
 
 
 class GamePlayer(models.Model):
+    RED = "red"
+    BLUE = "blue"
+    GREEN = "green"
+
+    COLOR_CHOICES = [
+        (RED, "Red"),
+        (BLUE, "Blue"),
+        (GREEN, "Green"),
+    ]
+
     game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="players")
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -45,6 +55,7 @@ class GamePlayer(models.Model):
     )
     player_order = models.PositiveSmallIntegerField()
     score = models.IntegerField(default=0)
+    color = models.CharField(max_length=10, choices=COLOR_CHOICES, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     joined_at = models.DateTimeField(auto_now_add=True)
 
@@ -61,10 +72,30 @@ class GamePlayer(models.Model):
                 name="games_gameplayer_game_order_unique",
                 violation_error_message="This player order is already taken in the game.",
             ),
+            models.UniqueConstraint(
+                fields=["game", "color"],
+                name="games_gameplayer_game_color_unique",
+                violation_error_message="This color is already taken in the game.",
+            ),
         ]
 
     def __str__(self):
         return f"{self.user} in game #{self.game_id}"
+
+
+class WaitingRoomEntry(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="waiting_room_entry",
+    )
+    joined_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["joined_at"]
+
+    def __str__(self):
+        return f"{self.user} waiting"
 
 
 class Round(models.Model):

@@ -6,6 +6,8 @@ app_name = "games"
 
 urlpatterns = [
     path("", views.GameListView.as_view(), name="list"),
+    path("waiting-room/join/", views.JoinWaitingRoomView.as_view(), name="waiting-room-join"),
+    path("waiting-room/leave/", views.LeaveWaitingRoomView.as_view(), name="waiting-room-leave"),
     path("<int:pk>/", views.GameDetailView.as_view(), name="detail"),
     path("<int:pk>/join/", views.JoinGameView.as_view(), name="join"),
     path("<int:pk>/leave/", views.LeaveGameView.as_view(), name="leave"),
